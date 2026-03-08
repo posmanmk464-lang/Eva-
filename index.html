@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Inna!</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS for animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    body { font-family: 'Poppins', sans-serif; background-color: #fef6f0; }
+    .font-anime { font-family: 'Mochiy Pop One', sans-serif; }
+    .text-sakura { color: #f67280; }
+    .sakura-canvas { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+    #countdown { color: #ff5e57; }
+  </style>
+</head>
+<body>
+
+<!-- Canvas for falling sakura -->
+<canvas id="sakura-canvas" class="sakura-canvas"></canvas>
+
+<!-- Hero Section -->
+<header class="h-screen relative flex items-center justify-center text-white overflow-hidden">
+  <img src="https://images.pexels.com/photos/459650/pexels-photo-459650.jpeg" class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
+  <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+
+  <div class="text-center z-10 p-4" data-aos="fade-in" data-aos-duration="1500">
+    <h1 class="text-5xl md:text-7xl font-anime drop-shadow-lg">Selamat Ulang Tahun, Inna! 🎉</h1>
+    <p class="mt-4 text-xl font-semibold">Wish you endless happiness and love 💖</p>
+    <div id="countdown" class="mt-6 text-2xl font-semibold tracking-widest leading-relaxed"></div>
+  </div>
+</header>
+
+<!-- Personal Letter -->
+<section class="my-16 md:my-24 max-w-3xl mx-auto text-center" data-aos="fade-up">
+  <h2 class="text-4xl md:text-5xl font-anime text-sakura mb-8 drop-shadow-sm">Pesan Spesial Untukmu 💌</h2>
+  <div class="text-left text-lg leading-relaxed space-y-4 bg-white p-8 rounded-lg shadow-lg">
+    <p>Selamat ulang tahun, Inna!</p>
+    <p>Semoga panjang umur dan sehat selalu. Aku sangat cinta kamu dan kamu selalu membuat hariku bahagia.</p>
+    <p>Semoga semua impianmu menjadi kenyataan di tahun ini. Kamu sangat cantik dan berarti bagiku. Terima kasih karena selalu membuatku tersenyum.</p>
+    <p class="text-right mt-8">Dengan cinta 💖<br>Your Secret Admirer</p>
+  </div>
+</section>
+
+<!-- Romantic Gallery -->
+<section class="my-16 md:my-24">
+  <h2 class="text-4xl md:text-5xl font-anime text-center mb-12" data-aos="fade-up">Gallery Romantis 🌸</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <img src="https://images.pexels.com/photos/13914971/pexels-photo-13914971.jpeg" class="rounded-lg shadow-lg w-full h-48 md:h-64 object-cover" alt="Romantic 1">
+    <img src="https://images.pexels.com/photos/459650/pexels-photo-459650.jpeg" class="rounded-lg shadow-lg w-full h-48 md:h-64 object-cover" alt="Romantic 2">
+    <img src="https://images.pexels.com/photos/3661163/pexels-photo-3661163.jpeg" class="rounded-lg shadow-lg w-full h-48 md:h-64 object-cover" alt="Romantic 3">
+    <img src="https://images.pexels.com/photos/207983/pexels-photo-207983.jpeg" class="rounded-lg shadow-lg w-full h-48 md:h-64 object-cover" alt="Romantic 4">
+    <img src="https://images.pexels.com/photos/2559942/pexels-photo-2559942.jpeg" class="rounded-lg shadow-lg w-full h-48 md:h-64 object-cover" alt="Romantic 5">
+  </div>
+</section>
+  <div id="intro" class="fixed inset-0 bg-black flex items-center justify-center z-[9999]">
+  <h1 id="counter" class="text-white text-6xl font-bold">0</h1>
+</div>
+
+<div id="hearts" class="fixed inset-0 pointer-events-none z-[9998] hidden"></div>
+
+<!-- Footer -->
+<footer class="bg-pink-200 text-white p-8 text-center">
+  <p>Enjoy your special day, Inna! 💖</p>
+  <p class="text-sm opacity-70 mt-2">With love from someone who adores you 😘</p>
+</footer>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+
+  // Countdown to next birthday (adjust date)
+  const countdown = document.getElementById('countdown');
+  const birthday = new Date("March 7, 2026 00:00:00").getTime();
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const distance = birthday - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+    countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }, 1000);
+
+  // Sakura Canvas Effect
+  const canvas = document.getElementById('sakura-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const petals = [];
+  for(let i=0;i<100;i++){
+    petals.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      r: Math.random()*4+1,
+      d: Math.random()*1
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = 'rgba(255,182,193,0.8)';
+    ctx.beginPath();
+    for(let i=0;i<petals.length;i++){
+      let p=petals[i];
+      ctx.moveTo(p.x,p.y);
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+    }
+    ctx.fill();
+    update();
+  }
+
+  let angle=0;
+  function update(){
+    angle +=0.01;
+    for(let i=0;i<petals.length;i++){
+      let p=petals[i];
+      p.y += Math.cos(angle+p.d)+1+p.r/2;
+      p.x += Math.sin(angle)*2;
+
+      if(p.x>canvas.width+5 || p.x<0 || p.y>canvas.height){
+        p.x = Math.random()*canvas.width;
+        p.y = -10;
+      }
+    }
+  }
+
+  setInterval(draw,33);
+</script>
+</body>
+</html>
